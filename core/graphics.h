@@ -20,7 +20,8 @@ Matrix projection(float coeff) {
     return Projection;
 }
 
-Matrix lookat(Vec3f eye, Vec3f target, Vec3f up) {
+Matrix lookat(Vec3f eye, Vec3f target, Vec3f up) 
+{
     Vec3f z = (eye-target).normalize();
     Vec3f x = cross(up,z).normalize();
     Vec3f y = cross(z,x).normalize();
@@ -36,7 +37,8 @@ Matrix lookat(Vec3f eye, Vec3f target, Vec3f up) {
     return ModelView;
 }
 
-Vec3f barycentric(Vec2f A, Vec2f B, Vec2f C, Vec2f P) {
+Vec3f barycentric(Vec2f A, Vec2f B, Vec2f C, Vec2f P) 
+{
     Vec3f s[2];
     for (int i=2; i--; ) {
         s[i][0] = C[i]-A[i];
@@ -49,11 +51,13 @@ Vec3f barycentric(Vec2f A, Vec2f B, Vec2f C, Vec2f P) {
     return Vec3f(-1,1,1); // in this case generate negative coordinates, it will be thrown away by the rasterizator
 }
 
-void DrawPoint(int x1, int y1, TGAImage &image, TGAColor color) {
+void DrawPoint(int x1, int y1, TGAImage &image, TGAColor color) 
+{
     image.set(x1, y1, color);
 }
 
-void DrawLine(int x1, int y1, int x2, int y2, TGAImage &image, TGAColor color){
+void DrawLine(int x1, int y1, int x2, int y2, TGAImage &image, TGAColor color)
+{
     float dt = 0.01;
     int dx = x2 - x1;
     int dy = y2 - y1;
@@ -133,7 +137,8 @@ void DrawWireframe(Vec3f *pts, TGAImage &image, TGAColor color){
     }
 }
 
-void DrawTriangle(mat<4,3,float> &clipc, IShader &shader, TGAImage &image, float *zbuffer, Camera &camera) {
+void DrawTriangle(mat<4,3,float> &clipc, IShader &shader, TGAImage &image, float *zbuffer, Camera &camera) 
+{
     mat<3,4,float> pts  = (Viewport*clipc).transpose(); // transposed to ease access to each of the points
     mat<3,2,float> pts2;
     for (int i=0; i<3; i++) pts2[i] = proj<2>(pts[i]/pts[i][3]);
@@ -141,8 +146,10 @@ void DrawTriangle(mat<4,3,float> &clipc, IShader &shader, TGAImage &image, float
     Vec2f bboxmin((std::numeric_limits<float>::max)(),  (std::numeric_limits<float>::max)());
     Vec2f bboxmax(-(std::numeric_limits<float>::max)(), -(std::numeric_limits<float>::max)());
     Vec2f clamp(image.get_width()-1, image.get_height()-1);
-    for (int i=0; i<3; i++) {
-        for (int j=0; j<2; j++) {
+    for (int i=0; i<3; i++) 
+    {
+        for (int j=0; j<2; j++)
+        {
             bboxmin[j] = std::fmax(0.f,      std::fmin(bboxmin[j], pts2[i][j]));
             bboxmax[j] = std::fmin(clamp[j], std::fmax(bboxmax[j], pts2[i][j]));
         }
@@ -150,8 +157,10 @@ void DrawTriangle(mat<4,3,float> &clipc, IShader &shader, TGAImage &image, float
     Vec2i P;
     TGAColor color;
     // 光栅化
-    for (P.x=bboxmin.x; P.x<=bboxmax.x; P.x++) {
-        for (P.y=bboxmin.y; P.y<=bboxmax.y; P.y++) {
+    for (P.x=bboxmin.x; P.x<=bboxmax.x; P.x++) 
+    {
+        for (P.y=bboxmin.y; P.y<=bboxmax.y; P.y++) 
+        {
             Vec3f bc_screen  = barycentric(pts2[0], pts2[1], pts2[2], P);
             // 透视校正
             Vec3f bc_clip    = Vec3f(bc_screen.x/pts[0][3], bc_screen.y/pts[1][3], bc_screen.z/pts[2][3]);

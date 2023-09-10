@@ -13,8 +13,8 @@ Matrix Mshadow; // transform  coordinates to shadowbuffer space
 Model *model = NULL;
 TGAColor red = TGAColor(255,0,0,255);
 
-const int width  = 400;
-const int height = 400;
+const int width  = 1600;
+const int height = 900;
 
 TGAImage image(width, height, TGAImage::RGBA);
 TGAImage depth(width, height, TGAImage::RGBA);

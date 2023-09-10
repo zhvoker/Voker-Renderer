@@ -6,11 +6,11 @@
 class IShader 
 {
 public:
-    mat<2,3,float> varying_uv;  // triangle uv coordinates, written by the vertex shader, read by the fragment shader
-    mat<4,3,float> varying_tri; // triangle coordinates (clip coordinates), written by VS, read by FS
-    mat<3,3,float> varying_nrm; // normal per vertex to be interpolated by FS
-    mat<3,3,float> ndc_tri;     // triangle in normalized device coordinates
-    mat<3,3,float> fs_pos; // clip coordinates 3X3 计算半程向量使用
+    mat<2,3,float> varying_uv;  // uv 坐标
+    mat<4,3,float> varying_tri; // 裁剪坐标系下的坐标
+    mat<3,3,float> varying_nrm; // 法线向量
+    mat<3,3,float> ndc_tri;     
+    mat<3,3,float> fs_pos; 
 
     virtual ~IShader();
     virtual Vec4f vertex(int iface, int nthvert) { return Vec4f();};
